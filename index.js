@@ -29,6 +29,7 @@ async function run() {
         // Send a ping to confirm a successful connection
 
         const resourceCollection = client.db('resourceDB').collection('videos')
+        const postCollection = client.db('resourceDB').collection('posts')
 
         app.get('/resources', async(req, res)=>{
             const cursor = resourceCollection.find();
@@ -43,10 +44,23 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/posts', async(req, res)=>{
+            const cursor = postCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
         app.post('/resources', async(req, res)=>{
             const resourceData = req.body;
             console.log(resourceData);
             const result = await resourceCollection.insertOne(resourceData);
+            res.send(result)
+        })
+
+        app.post('/posts', async(req, res)=>{
+            const postData = req.body;
+            console.log(postData);
+            const result = await postCollection.insertOne(postData);
             res.send(result)
         })
 
