@@ -30,6 +30,12 @@ async function run() {
 
         const resourceCollection = client.db('resourceDB').collection('videos')
 
+        app.get('/resources', async(req, res)=>{
+            const cursor = resourceCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
         app.post('/resources', async(req, res)=>{
             const resourceData = req.body;
             console.log(resourceData);
