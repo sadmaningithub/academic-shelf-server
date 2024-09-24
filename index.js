@@ -12,7 +12,6 @@ app.use(express.json());
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.x69co.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-// const uri = "mongodb+srv://shiuliahmed86:<db_password>@cluster0.x69co.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -28,6 +27,16 @@ async function run() {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
         // Send a ping to confirm a successful connection
+
+        const resourceCollection = client.db('resourceDB').collection('videos')
+
+        app.post('/resources', async(req, res)=>{
+            const resourceData = req.body;
+            console.log(resourceData);
+            const result = await resourceCollection.insertOne(resourceData);
+            res.send(result)
+        })
+
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
