@@ -32,7 +32,8 @@ async function run() {
         const postCollection = client.db('resourceDB').collection('posts')
 
         app.get('/resources', async(req, res)=>{
-            const cursor = resourceCollection.find();
+            const limit = req.query.limit? parseInt(req.query.limit) : 0;
+            const cursor = resourceCollection.find().limit(limit);
             const result = await cursor.toArray();
             res.send(result)
         })
