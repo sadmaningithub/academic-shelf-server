@@ -51,16 +51,21 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/resourcesCount', async(req, res)=>{
+            const count = await resourceCollection.estimatedDocumentCount();
+            res.send({count})
+        })
+
         app.post('/resources', async(req, res)=>{
             const resourceData = req.body;
-            console.log(resourceData);
+            // console.log(resourceData);
             const result = await resourceCollection.insertOne(resourceData);
             res.send(result)
         })
 
         app.post('/posts', async(req, res)=>{
             const postData = req.body;
-            console.log(postData);
+            // console.log(postData);
             const result = await postCollection.insertOne(postData);
             res.send(result)
         })
